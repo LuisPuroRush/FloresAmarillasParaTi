@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: white;
+            flex-direction: column;
+        }
+
+        #button {
+            padding: 20px 40px;
+            font-size: 24px;
+            border: 5px solid white;
+            background-color: transparent;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            box-shadow: 0 0 20px white;
+        }
+
+        #button:hover {
+            border-color: yellow;
+            box-shadow: 0 0 20px yellow, 0 0 40px yellow;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: float 2s infinite ease-in-out;
+            color: red;
+            z-index: 1;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        .disappear {
+            display: none;
+        }
+
+        #message {
+            display: none;
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #countdown {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        @keyframes moveText {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+
+        .message-animate {
+            animation: moveText 2s forwards;
+        }
+
+        #gifs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .gif {
+            height: 150px;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 0 10px white;
+        }
+
+        .gif:hover {
+            box-shadow: 0 0 20px yellow, 0 0 40px yellow;
+        }
+        .gif:nth-child(1) {
+            background-color: pink;
+        }
+
+        .gif:nth-child(2) {
+            background-color: lightblue;
+        }
+
+        .gif:nth-child(3) {
+            background-color: lavender;
+        }
+    </style>
+</head>
+<body>
+    <button id="button">Presiona aquí</button>
+    
+    <div id="message">
+        <p>Te quiero mucho, Pancito❤️</p>
+        <div id="countdown"></div>
+        <div id="gifs">
+            <img src="1.gif" alt="GIF 1" class="gif">
+            <img src="2.gif" alt="GIF 2" class="gif">
+            <img src="3.gif" alt="GIF 3" class="gif">
+        </div>
+    </div>
+    <audio id="audio" src="music.mp3"></audio>
+    <script>
+        const button = document.getElementById('button');
+        const message = document.getElementById('message');
+        const audio = document.getElementById('audio');
+        const countdown = document.getElementById('countdown');
+        let hearts = [];
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {  
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';  
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                document.body.appendChild(heart);
+                hearts.push(heart);
+            }
+        }
+
+        button.addEventListener('click', () => {
+            audio.play();
+            button.classList.add('disappear');
+            message.style.display = 'block';
+            message.classList.add('message-animate');
+            let seconds = 5; 
+            countdown.textContent = seconds;
+            const interval = setInterval(() => {
+                seconds--;
+                countdown.textContent = seconds;
+                if (seconds === 0) {
+                    clearInterval(interval);
+                    localStorage.setItem('isPlaying', 'true');
+                    window.location.href = 'Flores.html';
+                }
+            }, 1000);
+        });
+
+        createHearts();  
+    </script>
+</body>
+</html>
